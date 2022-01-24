@@ -1,0 +1,52 @@
+.daily-content {
+    height: 100%;
+    width: 100%;
+
+    &-header {
+        height: 8%;
+        background-image: linear-gradient(grey, white);
+
+        .el-input {
+            width: 16%;
+            float: left;
+            padding-left: 30px;
+            padding-top: 1%;
+        }
+
+        .el-button {
+            margin-top: 1%;
+        }
+
+        .returnButton {
+            margin-top: 1%;
+            float: left;
+            margin-left: 50px;
+        }
+        .saveButton {
+            margin-top: 1%;
+            float: right;
+            margin-right: 36.5%;
+        }
+    }
+    &-main {
+        height: 90%;
+        display: flex;
+        justify-content: space-around;
+        &-left {
+            // padding-left: 0;
+            width: 70%;
+            border-right: black solid 2px;
+            
+        }
+        &-right {
+            width: 30%;
+            .el-table-column {
+                text-align: 'center';
+            }
+            .el-calendar {
+                height: 200px;
+            }
+        }
+    }
+
+}
