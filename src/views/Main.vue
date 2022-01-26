@@ -9,7 +9,7 @@
           <CommonHeader v-bind:username="username"></CommonHeader>
         </el-header>
         <el-main>
-          <router-view />
+          <router-view :userData="userData" :chartData="chartData" />
         </el-main>
       </el-container>
     </el-container>
@@ -29,13 +29,32 @@ export default {
   data() {
     return {
       username: "",
+      userData: {},
+      chartData: {
+        editTime: [],
+        xLabelTime: [],
+      },
     };
   },
   mounted() {
     this.$axios.get("users/me").then((res) => {
       let _data = res.data;
+      this.userData = _data.data;
       this.username = _data.data.name;
       this.$store.commit("setUserId");
+      this.$axios
+        .get("reports/time/" + this.$store.state.userId)
+        .then((res) => {
+          let _data = res.data;
+          //   console.log(_data);
+          if (_data.code === 200) {
+            for (const d of _data.data) {
+              this.chartData.editTime.push(d.time);
+              this.chartData.xLabelTime.push(d.day);
+            }
+            // this.drawLineChart();
+          }
+        });
     });
   },
 };
@@ -44,7 +63,6 @@ export default {
 <style lang="scss" scoped>
 .container {
   height: calc(100vh);
-  margin: -8px;
 }
 
 .el-container {

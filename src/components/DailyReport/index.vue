@@ -64,6 +64,14 @@ export default {
 
       dailyReportData.forEach((p) => {
         if ((p.content && p.condition) || p.cause) {
+          if (p.edit) {
+            this.$message({
+              message: "请保存正在编辑的内容",
+              type: "error",
+            });
+            flag = true;
+            return;
+          }
           delete p.edit;
           p.cause = p.cause ? p.cause : "";
           dailyReportData_.push(p);

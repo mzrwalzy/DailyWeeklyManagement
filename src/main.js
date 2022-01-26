@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import vuex from 'vuex'
 import moment from 'moment'; //导入模块
+import echarts from 'echarts'
+
 // import { Button, Aside, Container, Header, Main, Menu, MenuItem, MenuItemGroup, Submenu } from 'element-ui';
 
 let token = ''
@@ -57,7 +59,7 @@ moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
 Vue.prototype.$moment = moment;//赋值使用
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-
+Vue.prototype.$echarts = echarts
 
 Vue.use(ElementUI)
 Vue.use(vuex)
