@@ -8,6 +8,7 @@
           @click="showDailyReport(data.day)"
         >
           {{ data.day.split("-").slice(2).join("") }}
+          <!-- {{ data.isSelected ? "✔️" : "" }} -->
           {{ data.isSelected ? "✔️" : "" }}
         </p>
       </template>
