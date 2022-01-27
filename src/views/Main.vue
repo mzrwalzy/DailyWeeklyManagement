@@ -9,7 +9,11 @@
           <CommonHeader v-bind:username="username"></CommonHeader>
         </el-header>
         <el-main>
-          <router-view :userData="userData" :chartData="chartData" />
+          <router-view
+            :userData="userData"
+            :chartData="chartData"
+            :reportData="reportData"
+          />
         </el-main>
       </el-container>
     </el-container>
@@ -34,6 +38,10 @@ export default {
         editTime: [],
         xLabelTime: [],
       },
+      reportData: {
+        dailyReportData: [],
+        adviceAndTomorrowPlan: [],
+      },
     };
   },
   mounted() {
@@ -42,6 +50,7 @@ export default {
       this.userData = _data.data;
       this.username = _data.data.name;
       this.$store.commit("setUserId");
+      // 显示近七天日报填写时间
       this.$axios
         .get("reports/time/" + this.$store.state.userId)
         .then((res) => {
@@ -55,6 +64,28 @@ export default {
             // this.drawLineChart();
           }
         });
+      let day_ = this.$moment().format("YYYY-MM-DD");
+      let params = {
+        user_id: this.$store.state.userId,
+        time: day_,
+      };
+      this.$axios.get("reports/show", { params }).then((res) => {
+        let _data = res.data;
+        if (_data.code === 200) {
+          this.reportData.dailyReportData = _data.data.daily_plan;
+          let advice_ = _data.data.advice;
+          let tomorrow_plan_ = _data.data.tomorrow_plan;
+          this.reportData.adviceAndTomorrowPlan = [];
+          if (advice_ != "" || tomorrow_plan_ != "") {
+            this.reportData.adviceAndTomorrowPlan = [
+              {
+                advice: advice_,
+                tomorrow_plan: tomorrow_plan_,
+              },
+            ];
+          }
+        }
+      });
     });
   },
 };
