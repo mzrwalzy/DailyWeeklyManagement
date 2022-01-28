@@ -13,6 +13,7 @@
             :userData="userData"
             :chartData="chartData"
             :reportData="reportData"
+            :events="events"
           />
         </el-main>
       </el-container>
@@ -42,6 +43,7 @@ export default {
         dailyReportData: [],
         adviceAndTomorrowPlan: [],
       },
+      events: [],
     };
   },
   mounted() {
@@ -69,6 +71,7 @@ export default {
         user_id: this.$store.state.userId,
         time: day_,
       };
+      // 日报
       this.$axios.get("reports/show", { params }).then((res) => {
         let _data = res.data;
         if (_data.code === 200) {
@@ -86,6 +89,22 @@ export default {
           }
         }
       });
+      // 周报
+      this.$axios
+        .get("reports/weekly/" + this.$store.state.userId)
+        .then((res) => {
+          let _data = res.data;
+          if (_data.code === 200) {
+            for (const d of _data.data) {
+              this.events.push({
+                id: d.id,
+                title: d.title,
+                start: d.start_time,
+                end: d.end_time,
+              });
+            }
+          }
+        });
     });
   },
 };
